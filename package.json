@@ -3,7 +3,7 @@
   "version": "2.0.1",
   "description": "Webpack React boilerplate, Babel and Sass.",
   "scripts": {
-    "start": "webpack-dev-server --config=config/webpack.config.js --mode=development --env dev --color --open",
+    "start": "webpack-dev-server --config=config/webpack.config.js --env dev --color",
     "build": "webpack --config=config/webpack.config.js --mode=production --progress",
     "analysis": "webpack --config=config/webpack.config.js --mode=production --profile --json > stats.json"
   },

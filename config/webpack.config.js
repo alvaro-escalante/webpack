@@ -34,7 +34,8 @@ const commonConfig = merge([
       symlinks: false
     },
     output: {
-      path: paths.dist
+      path: paths.dist,
+      pathinfo: true
     },
     plugins: [
       new HtmlPlugin({
@@ -110,7 +111,6 @@ const productionConfig = merge([
     cache: true,
     plugins: [
       new CleanWebpackPlugin(),
-      // new webpack.HashedModuleIdsPlugin(),
       new webpack.DefinePlugin({
         'process.env.NODE_ENV': JSON.stringify('production')
       })
@@ -193,11 +193,7 @@ const developmentConfig = merge([
     entry: [`${paths.app}/scripts/index.jsx`, `${paths.app}/styles/index.scss`],
     cache: true,
     devtool: 'cheap-module-source-map',
-    plugins: [
-      new ErrorOverlayPlugin(),
-      new webpack.HotModuleReplacementPlugin(),
-      new CleanWebpackPlugin()
-    ]
+    plugins: [new ErrorOverlayPlugin(), new CleanWebpackPlugin()]
   },
   // Dev server main settings
   load.DevServer({

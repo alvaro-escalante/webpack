@@ -7,19 +7,18 @@ const // Optimise CSS
   // Optimise JS
   TerserPlugin = require('terser-webpack-plugin')
 
-exports.DevServer = ({ host, port, contentBase, proxy, https } = {}) => ({
+exports.DevServer = ({ host, port, proxy, https } = {}) => ({
   devServer: {
     host,
     port,
-    contentBase,
     proxy,
     https,
+    open: true,
     hot: true,
-    compress: true,
+    inline: true,
+    liveReload: false,
     watchOptions: { ignored: /node_modules/ },
-    watchContentBase: true,
     disableHostCheck: true,
-    liveReload: true,
     clientLogLevel: 'none',
     historyApiFallback: true,
     stats: {
@@ -74,13 +73,12 @@ exports.MinifyJS = options => ({
 })
 
 // JS Linter
-exports.LintJS = ({ include, exclude, options }) => ({
+exports.LintJS = ({ include, options }) => ({
   module: {
     rules: [
       {
         test: /\.js$/,
         include,
-        exclude,
         enforce: 'pre',
         loader: 'eslint-loader',
         options
@@ -89,53 +87,25 @@ exports.LintJS = ({ include, exclude, options }) => ({
   }
 })
 
-// Development extraction of CSS
 exports.Styles = ({ include } = {}) => ({
   module: {
     rules: [
       {
         test: /\.scss$/,
         include,
-        use: [
-          {
-            loader: MiniCssExtractPlugin.loader,
-            options: {
-              hmr: true,
-              modules: true
-            }
-          },
-          'css-loader?sourceMap',
-          {
-            loader: 'sass-loader',
-            options: { sourceMap: true }
-          }
-        ]
+        use: ['style-loader', 'css-loader?sourceMap', 'sass-loader?sourceMap']
       }
     ]
-  },
-  plugins: [new MiniCssExtractPlugin()]
+  }
 })
 
-// exports.Styles = ({ include } = {}) => ({
-//   module: {
-//     rules: [
-//       {
-//         test: /\.scss$/,
-//         include,
-//         use: ['style-loader', 'css-loader?sourceMap', 'sass-loader?sourceMap']
-//       }
-//     ]
-//   }
-// })
-
 // Production extraction of CSS
-exports.ExtractCSS = ({ include, exclude, options } = {}) => ({
+exports.ExtractCSS = ({ include, options } = {}) => ({
   module: {
     rules: [
       {
         test: /\.scss$/,
         include,
-        exclude,
         use: [
           {
             loader: MiniCssExtractPlugin.loader,

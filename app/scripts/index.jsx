@@ -1,3 +1,4 @@
+import { hot } from 'react-hot-loader/root'
 import React, { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import { getId } from './components/functions'
@@ -26,10 +27,7 @@ const App = () => {
   )
 }
 
-export default App
+export default module.hot ? hot(App) : App
 
 ReactDOM.render(<App />, getId('root'))
 
-if (module.hot) {
-  module.hot.accept()
-}
